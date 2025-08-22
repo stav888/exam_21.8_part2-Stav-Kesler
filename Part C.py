@@ -74,7 +74,7 @@ conn.commit()
 # 2 search movie script
 
 def search_movies():
-    search_term = input("\nEnter a movie name or part of a movie name: ").strip()
+    search_term = input("\nEnter a movie name or part of a movie name: ")
 
     if not search_term:
         print("Please enter a valid search term.")
@@ -92,9 +92,7 @@ def search_movies():
                   f"Country: {movie['country']}, Language: {movie['language']}, "
                   f"Year: {movie['year']}, Revenue: ${movie['revenue']}M")
     else:
-        print(f"no movies found'{search_term}'.")
-
-    conn.close()
+        print(f"No movies found matching '{search_term}'.")
 
 search_movies()
 
@@ -105,29 +103,29 @@ def add_movie():
     print("\n=== Add New Movie ===")
 
     try:
-        movie_name = input("Enter movie name: ").strip()
+        movie_name = input("Enter movie name: ")
         if not movie_name:
             print("Movie name cannot be empty.")
             return
 
-        genre = input("Enter genre: ").strip()
+        genre = input("Enter genre: ")
         if not genre:
             print("Genre cannot be empty.")
             return
 
-        country = input("Enter country: ").strip()
+        country = input("Enter country: ")
         if not country:
             print("Country cannot be empty.")
             return
 
-        language = input("Enter language: ").strip()
+        language = input("Enter language: ")
         if not language:
             print("Language cannot be empty.")
             return
 
-        year = int(input("Enter year (1990 or later): "))
-        if year < 1990:
-            print("Year must be 1990 or later.")
+        year = int(input("Enter year (2009 or later): "))
+        if year < 2009:
+            print("Year must be 2009 or later.")
             return
 
         revenue = float(input("Enter revenue in millions: "))
@@ -135,24 +133,20 @@ def add_movie():
             print("Revenue cannot be negative.")
             return
 
-        conn_insert = sqlite3.connect('movies.db')
-        cursor_insert = conn_insert.cursor()
-
-        cursor_insert.execute('''
+        cursor.execute('''
         INSERT INTO movies (movie_name, genre, country, language, year, revenue)
         VALUES (?, ?, ?, ?, ?, ?)
         ''', (movie_name, genre, country, language, year, revenue))
 
-        conn_insert.commit()
-        conn_insert.close()
+        conn.commit()
 
         print(f"Movie '{movie_name}' added successfully!")
 
     except ValueError:
         print("Invalid input. Please enter numbers for year and revenue.")
-    except sqlite3.IntegrityError:
-        print("Error: A movie with this name already exists.")
     except Exception as e:
         print(f"An error occurred: {e}")
 
 add_movie()
+
+conn.close()
