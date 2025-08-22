@@ -7,7 +7,7 @@ ORDER BY movies_count DESC;
 #2
 SELECT SUM(revenue) as all_revenue , year
 FROM movies
-GROUP BY year
+GROUP BY year;
 
 #3
 SELECT genre, AVG(revenue) as avg_revenue
@@ -26,6 +26,7 @@ SELECT language, COUNT(*) as movie_count
 FROM movies
 GROUP BY language
 ORDER BY movie_count ASC
+LIMIT 1;
 
 #6
 SELECT country, COUNT(*) as movie_count
