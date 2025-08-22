@@ -1,25 +1,25 @@
 #1
-SELECT t.first_name, t.last_name, c.country_name
-FROM tourists t
-INNER JOIN countries c ON c.id = t.country_id;
+SELECT ts.first_name, ts.last_name, c.country_name
+FROM tourists ts
+INNER JOIN countries c ON c.id = ts.country_id;
 
 #2
-SELECT t.first_name, t.last_name, tr.*
-FROM tourists t
-INNER JOIN tours tr ON tr.id = t.tour_id;
+SELECT ts.first_name, ts.last_name, tr.*
+FROM tourists ts
+INNER JOIN tours tr ON tr.id = ts.tour_id;
 
 #3
-SELECT t.first_name, t.last_name, tr.tour_name, tr.start_date, tr.end_date, tr.price, tr.difficulty_level
-FROM tourists t
-LEFT JOIN tours tr ON tr.id = t.tour_id
+SELECT ts.first_name, ts.last_name, tr.tour_name, tr.start_date, tr.end_date, tr.price, tr.difficulty_level
+FROM tourists ts
+LEFT JOIN tours tr ON tr.id = ts.tour_id;
 
 #4
 SELECT
-    t.id AS tourist_id,
-    t.first_name,
-    t.last_name,
-    t.passport_number,
-    t.country_id,
+    ts.id AS tourist_id,
+    ts.first_name,
+    ts.last_name,
+    ts.passport_number,
+    ts.country_id,
     tr.id AS tour_id,
     tr.tour_name,
     tr.description,
@@ -30,17 +30,17 @@ SELECT
     tr.guide_name,
     tr.difficulty_level,
     tr.pickup_location
-FROM tourists  AS t
-LEFT JOIN tours AS tr ON t.tour_id = tr.id
+FROM tourists ts
+LEFT JOIN tours tr ON ts.tour_id = tr.id
 
 UNION
 
 SELECT
-    t.id,
-    t.first_name,
-    t.last_name,
-    t.passport_number,
-    t.country_id,
+    ts.id,
+    ts.first_name,
+    ts.last_name,
+    ts.passport_number,
+    ts.country_id,
     tr.id,
     tr.tour_name,
     tr.description,
@@ -51,33 +51,23 @@ SELECT
     tr.guide_name,
     tr.difficulty_level,
     tr.pickup_location
-FROM tours AS tr
-LEFT JOIN tourists AS t ON t.tour_id = tr.id
-WHERE t.id IS NULL;
+FROM tours tr
+LEFT JOIN tourists ts ON ts.tour_id = tr.id
+WHERE ts.id IS NULL;
 
 #5
-SELECT t.first_name, t.last_name
-FROM tourists t
-WHERE t.tour_id IS NULL;
+SELECT ts.first_name, ts.last_name
+FROM tourists ts
+WHERE ts.tour_id IS NULL;
 
 DELETE FROM tourists
 WHERE tour_id IS NULL;
 
-SELECT t.first_name, t.last_name
-FROM tourists t
-WHERE t.tour_id IS NOT NULL;
-
 #6
-SELECT
-    tr.tour_name,
-    tr.description,
-    tr.start_date,
-    tr.end_date
+SELECT tr.tour_name, tr.description, tr.start_date, tr.end_date
 FROM tours tr
-LEFT JOIN tourists t ON tr.id = t.tour_id
-WHERE t.tour_id IS NULL;
-
-
+LEFT JOIN tourists ts ON tr.id = ts.tour_id
+WHERE ts.tour_id IS NULL;
 
 UPDATE tours
 SET
@@ -90,17 +80,6 @@ WHERE
         WHERE tour_id IS NOT NULL
     );
 
-
-SELECT
-    tr.tour_name,
-    tr.description,
-    tr.start_date,
-    tr.end_date
-FROM tours tr
-LEFT JOIN tourists t ON tr.id = t.tour_id
-WHERE t.tour_id IS NOT NULL
-
-
 #7
 SELECT COUNT(*) AS trips_without_tourists
 FROM tours
@@ -112,21 +91,16 @@ WHERE id NOT IN (
 
 #8
 SELECT
-    t.id AS tourist_id,
-    t.first_name,
-    t.last_name,
-    t.tour_id AS tourist_trip_id,
+    ts.id AS tourist_id,
+    ts.first_name,
+    ts.last_name,
+    ts.tour_id AS tourist_assigned_trip_id,
     c.country_name,
     tr.id AS trip_id,
     tr.tour_name,
     tr.start_date,
     tr.end_date
-FROM
-    tours tr
-CROSS JOIN
-    tourists t
-JOIN
-    countries c ON t.country_id = c.id
-ORDER BY
-    tr.id, t.id;
-
+FROM tours tr
+CROSS JOIN tourists ts
+JOIN countries c ON ts.country_id = c.id
+ORDER BY tr.id, ts.id;
