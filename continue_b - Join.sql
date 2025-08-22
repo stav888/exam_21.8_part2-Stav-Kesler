@@ -58,7 +58,10 @@ WHERE t.id IS NULL;
 #5
 SELECT t.first_name, t.last_name
 FROM tourists t
-LEFT JOIN tours tr ON tr.id = t.tour_id
 WHERE t.tour_id IS NULL;
 
+DELETE FROM tourists
+WHERE tour_id IS NULL;
+
+#6
 
