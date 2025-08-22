@@ -63,5 +63,39 @@ WHERE t.tour_id IS NULL;
 DELETE FROM tourists
 WHERE tour_id IS NULL;
 
-#6
+SELECT t.first_name, t.last_name
+FROM tourists t
+WHERE t.tour_id IS NOT NULL;
 
+#6
+SELECT
+    tr.tour_name,
+    tr.description,
+    tr.start_date,
+    tr.end_date
+FROM tours tr
+LEFT JOIN tourists t ON tr.id = t.tour_id
+WHERE t.tour_id IS NULL;
+
+
+
+UPDATE tours
+SET
+    start_date = DATE(start_date, '+1 year'),
+    end_date = DATE(end_date, '+1 year')
+WHERE
+    id NOT IN (
+        SELECT DISTINCT tour_id
+        FROM tourists
+        WHERE tour_id IS NOT NULL
+    );
+
+
+SELECT
+    tr.tour_name,
+    tr.description,
+    tr.start_date,
+    tr.end_date
+FROM tours tr
+LEFT JOIN tourists t ON tr.id = t.tour_id
+WHERE t.tour_id IS NOT NULL
