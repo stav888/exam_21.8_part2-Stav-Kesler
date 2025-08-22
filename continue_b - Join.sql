@@ -99,3 +99,13 @@ SELECT
 FROM tours tr
 LEFT JOIN tourists t ON tr.id = t.tour_id
 WHERE t.tour_id IS NOT NULL
+
+
+#7
+SELECT COUNT(*) AS trips_without_tourists
+FROM tours
+WHERE id NOT IN (
+    SELECT DISTINCT tour_id
+    FROM tourists
+    WHERE tour_id IS NOT NULL
+);
