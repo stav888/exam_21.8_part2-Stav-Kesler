@@ -4,67 +4,61 @@ FROM tourists t
 INNER JOIN countries c ON c.id = t.country_id;
 
 #2
-SELECT t.first_name, t.last_name, tr.*
+SELECT t.first_name, t.last_name, tours.*
 FROM tourists t
-INNER JOIN tours tr ON tr.id = t.tour_id;
+INNER JOIN tours tours ON tours.id = t.tour_id;
 
 #3
-SELECT t.first_name, t.last_name, tr.*
+SELECT t.first_name, t.last_name, tours.*
 FROM tourists t
-left JOIN tours tr ON tr.id = t.tour_id;
+left JOIN tours tours ON tours.id = t.tour_id;
 
 #4
--- Display all tourists and their assigned trip details, plus all trips with their assigned tourists
--- Using UNION of LEFT JOIN and RIGHT JOIN to simulate FULL JOIN (since SQLite doesn't support FULL JOIN)
-
-SELECT 
+SELECT
     t.id AS tourist_id,
     t.first_name,
     t.last_name,
     t.passport_number,
-    t.date_of_birth,
-    t.gender,
-    t.email,
-    t.phone,
-    c.country_name,
-    tours.id AS tour_id,
-    tours.tour_name,
-    tours.description,
-    tours.start_date,
-    tours.end_date,
-    tours.price,
-    tours.max_participants,
-    tours.guide_name,
-    tours.difficulty_level,
-    tours.pickup_location
-FROM tourists t
-LEFT JOIN countries c ON t.country_id = c.id
-LEFT JOIN tours ON t.tour_id = tours.id
+    t.country_id,
+    tr.id AS tour_id,
+    tr.tour_name,
+    tr.description,
+    tr.start_date,
+    tr.end_date,
+    tr.price,
+    tr.max_participants,
+    tr.guide_name,
+    tr.difficulty_level,
+    tr.pickup_location
+FROM tourists  AS t
+LEFT JOIN tours AS tr ON t.tour_id = tr.id
 
 UNION
 
-SELECT 
-    t.id AS tourist_id,
+SELECT
+    t.id,
     t.first_name,
     t.last_name,
     t.passport_number,
-    t.date_of_birth,
-    t.gender,
-    t.email,
-    t.phone,
-    c.country_name,
-    tours.id AS tour_id,
-    tours.tour_name,
-    tours.description,
-    tours.start_date,
-    tours.end_date,
-    tours.price,
-    tours.max_participants,
-    tours.guide_name,
-    tours.difficulty_level,
-    tours.pickup_location
-FROM tours
-LEFT JOIN tourists t ON tours.id = t.tour_id
-LEFT JOIN countries c ON t.country_id = c.id
+    t.country_id,
+    tr.id,
+    tr.tour_name,
+    tr.description,
+    tr.start_date,
+    tr.end_date,
+    tr.price,
+    tr.max_participants,
+    tr.guide_name,
+    tr.difficulty_level,
+    tr.pickup_location
+FROM tours AS tr
+LEFT JOIN tourists AS t ON t.tour_id = tr.id
+WHERE t.id IS NULL;
 
-ORDER BY tourist_id, tour_id;
+#5
+SELECT t.first_name, t.last_name
+FROM tourists t
+LEFT JOIN tours tr ON tr.id = t.tour_id
+WHERE t.tour_id IS NULL;
+
+
