@@ -70,6 +70,7 @@ for movie in movies:
 conn.commit()
 
 # search movie script
+
 def search_movies():
     search_term = input("\nEnter a movie name or part of a movie name: ").strip()
 
