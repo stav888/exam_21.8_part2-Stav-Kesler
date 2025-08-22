@@ -115,7 +115,7 @@ SELECT
     t.id AS tourist_id,
     t.first_name,
     t.last_name,
-    t.tour_id AS currently_assigned_trip,
+    t.tour_id AS tourist_trip_id,
     c.country_name,
     tr.id AS trip_id,
     tr.tour_name,
