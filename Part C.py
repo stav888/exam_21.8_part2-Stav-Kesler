@@ -58,7 +58,7 @@ INSERT INTO movies (movie_name, genre, country, language, year, revenue)
 VALUES (?, ?, ?, ?, ?, ?);
 ''', data)
 
-
+# show all movies
 cursor.execute("SELECT * FROM movies")
 movies = cursor.fetchall()
 for movie in movies:
@@ -67,4 +67,29 @@ for movie in movies:
           f"Year: {movie['year']}, Revenue: ${movie['revenue']}M")
 
 conn.commit()
-conn.close()
+
+# search movie script
+def search_movies():
+    search_term = input("\nEnter a movie name or part of a movie name: ").strip()
+
+    if not search_term:
+        print("Please enter a valid search term.")
+        return
+
+    cursor.execute("SELECT * FROM movies WHERE movie_name LIKE ? ORDER BY movie_name",
+                   (f"%{search_term}%",))
+    matching_movies = cursor.fetchall()
+
+    if matching_movies:
+        print(f"\nFound {len(matching_movies)} movie(s) matching '{search_term}':")
+
+        for movie in matching_movies:
+            print(f"ID: {movie['id']}, Name: {movie['movie_name']}, Genre: {movie['genre']}, "
+                  f"Country: {movie['country']}, Language: {movie['language']}, "
+                  f"Year: {movie['year']}, Revenue: ${movie['revenue']}M")
+    else:
+        print(f"no movies found'{search_term}'.")
+
+    conn.close()
+
+search_movies()
