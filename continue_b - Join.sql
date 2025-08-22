@@ -6,12 +6,12 @@ INNER JOIN countries c ON c.id = t.country_id;
 #2
 SELECT t.first_name, t.last_name, tr.*
 FROM tourists t
-INNER JOIN tours tr ON tours.id = t.tour_id;
+INNER JOIN tours tr ON tr.id = t.tour_id;
 
 #3
 SELECT t.first_name, t.last_name, tr.*
 FROM tourists t
-left JOIN tours tr ON tours.id = t.tour_id;
+LEFT JOIN tours tr ON tr.id = t.tour_id;
 
 #4
 SELECT
