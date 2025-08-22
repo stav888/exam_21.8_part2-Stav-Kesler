@@ -31,29 +31,7 @@ SELECT
     tr.difficulty_level,
     tr.pickup_location
 FROM tourists ts
-LEFT JOIN tours tr ON ts.tour_id = tr.id
-
-UNION
-
-SELECT
-    ts.id,
-    ts.first_name,
-    ts.last_name,
-    ts.passport_number,
-    ts.country_id,
-    tr.id,
-    tr.tour_name,
-    tr.description,
-    tr.start_date,
-    tr.end_date,
-    tr.price,
-    tr.max_participants,
-    tr.guide_name,
-    tr.difficulty_level,
-    tr.pickup_location
-FROM tours tr
-LEFT JOIN tourists ts ON ts.tour_id = tr.id
-WHERE ts.id IS NULL;
+FULL OUTER JOIN tours tr ON ts.tour_id = tr.id;
 
 #5
 SELECT ts.first_name, ts.last_name
@@ -78,7 +56,7 @@ WHERE
         SELECT DISTINCT tour_id
         FROM tourists
         WHERE tour_id IS NOT NULL
-    );
+);
 
 #7
 SELECT COUNT(*) AS trips_without_tourists
