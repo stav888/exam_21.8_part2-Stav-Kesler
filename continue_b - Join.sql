@@ -109,3 +109,24 @@ WHERE id NOT IN (
     FROM tourists
     WHERE tour_id IS NOT NULL
 );
+
+#8
+SELECT
+    t.id AS tourist_id,
+    t.first_name,
+    t.last_name,
+    t.tour_id AS currently_assigned_trip,
+    c.country_name,
+    tr.id AS trip_id,
+    tr.tour_name,
+    tr.start_date,
+    tr.end_date
+FROM
+    tours tr
+CROSS JOIN
+    tourists t
+JOIN
+    countries c ON t.country_id = c.id
+ORDER BY
+    tr.id, t.id;
+
