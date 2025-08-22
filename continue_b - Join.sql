@@ -1,5 +1,5 @@
 #1
-SELECT t.first_name, t.last_name, c.country_name
+SELECT t.first_name, t.last_name, c.country_name, c.country_name
 FROM tourists t
 INNER JOIN countries c ON c.id = t.country_id;
 
@@ -9,9 +9,9 @@ FROM tourists t
 INNER JOIN tours tr ON tr.id = t.tour_id;
 
 #3
-SELECT t.first_name, t.last_name, tr.*
+SELECT t.first_name, t.last_name, tr.tour_name, tr.start_date, tr.end_date, tr.price, tr.difficulty_level
 FROM tourists t
-LEFT JOIN tours tr ON tr.id = t.tour_id;
+LEFT JOIN tours tr ON tr.id = t.tour_id
 
 #4
 SELECT
