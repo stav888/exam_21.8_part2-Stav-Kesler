@@ -61,7 +61,6 @@ VALUES (?, ?, ?, ?, ?, ?);
 
 # 1 show all movies
 print("MOVIE DATABASE - ALL MOVIES")
-print("=" * 60)
 
 cursor.execute("SELECT * FROM movies")
 movies = cursor.fetchall()
@@ -77,7 +76,6 @@ conn.commit()
 
 def search_movies():
     print("\nMOVIE SEARCH")
-    print("=" * 30)
     search_term = input("Enter movie name or keyword to search: ")
 
     if not search_term:
@@ -90,13 +88,11 @@ def search_movies():
 
     if matching_movies:
         print(f"\nFound {len(matching_movies)} movie(s) matching '{search_term}':")
-        print("-" * 60)
 
         for movie in matching_movies:
             print(f"{movie['movie_name']} ({movie['year']})")
             print(f"   Genre: {movie['genre']} | Country: {movie['country']} | Language: {movie['language']}")
             print(f"   Box Office: ${movie['revenue']}M | ID: {movie['id']}")
-            print("-" * 50)
     else:
         print(f"No movies found matching '{search_term}'. Try a different search term.")
 
@@ -107,7 +103,6 @@ search_movies()
 
 def add_movie():
     print("\nADD NEW MOVIE TO DATABASE")
-    print("=" * 40)
 
     try:
         movie_name = input("Enter movie title: ")
