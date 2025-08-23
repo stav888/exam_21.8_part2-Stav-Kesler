@@ -60,13 +60,15 @@ VALUES (?, ?, ?, ?, ?, ?);
 
 
 # 1 show all movies
+print("MOVIE DATABASE - ALL MOVIES")
+print("=" * 60)
 
 cursor.execute("SELECT * FROM movies")
 movies = cursor.fetchall()
 for movie in movies:
-    print(f"ID: {movie['id']}, Name: {movie['movie_name']}, Genre: {movie['genre']}, "
-          f"Country: {movie['country']}, Language: {movie['language']}, "
-          f"Year: {movie['year']}, Revenue: ${movie['revenue']}M")
+    print(f"{movie['movie_name']} ({movie['year']})")
+    print(f"   ID: {movie['id']} | Genre: {movie['genre']} | Country: {movie['country']} | Language: {movie['language']}")
+    print(f"   Box Office: ${movie['revenue']}M")
 
 conn.commit()
 
@@ -74,7 +76,9 @@ conn.commit()
 # 2 search movie script
 
 def search_movies():
-    search_term = input("\nEnter a movie name or part of a movie name: ")
+    print("\nMOVIE SEARCH")
+    print("=" * 30)
+    search_term = input("Enter movie name or keyword to search: ")
 
     if not search_term:
         print("Please enter a valid search term.")
@@ -86,13 +90,15 @@ def search_movies():
 
     if matching_movies:
         print(f"\nFound {len(matching_movies)} movie(s) matching '{search_term}':")
+        print("-" * 60)
 
         for movie in matching_movies:
-            print(f"ID: {movie['id']}, Name: {movie['movie_name']}, Genre: {movie['genre']}, "
-                  f"Country: {movie['country']}, Language: {movie['language']}, "
-                  f"Year: {movie['year']}, Revenue: ${movie['revenue']}M")
+            print(f"{movie['movie_name']} ({movie['year']})")
+            print(f"   Genre: {movie['genre']} | Country: {movie['country']} | Language: {movie['language']}")
+            print(f"   Box Office: ${movie['revenue']}M | ID: {movie['id']}")
+            print("-" * 50)
     else:
-        print(f"No movies found matching '{search_term}'.")
+        print(f"No movies found matching '{search_term}'. Try a different search term.")
 
 search_movies()
 
@@ -100,35 +106,36 @@ search_movies()
 # 3 add new movie to DB
 
 def add_movie():
-    print("\n=== Add New Movie ===")
+    print("\nADD NEW MOVIE TO DATABASE")
+    print("=" * 40)
 
     try:
-        movie_name = input("Enter movie name: ")
+        movie_name = input("Enter movie title: ")
         if not movie_name:
-            print("Movie name cannot be empty.")
+            print("Movie title cannot be empty.")
             return
 
-        genre = input("Enter genre: ")
+        genre = input("Enter genre (Action, Drama, Comedy...): ")
         if not genre:
             print("Genre cannot be empty.")
             return
 
-        country = input("Enter country: ")
+        country = input("Enter country of origin: ")
         if not country:
             print("Country cannot be empty.")
             return
 
-        language = input("Enter language: ")
+        language = input("Enter primary language: ")
         if not language:
             print("Language cannot be empty.")
             return
 
-        year = int(input("Enter year (2009 or later): "))
+        year = int(input("Enter release year (2009 or later): "))
         if year < 2009:
-            print("Year must be 2009 or later.")
+            print("Release year must be 2009 or later.")
             return
 
-        revenue = float(input("Enter revenue in millions: "))
+        revenue = float(input("Enter movie revenue: "))
         if revenue < 0:
             print("Revenue cannot be negative.")
             return
@@ -140,12 +147,12 @@ def add_movie():
 
         conn.commit()
 
-        print(f"Movie '{movie_name}' added successfully!")
+        print(f"SUCCESS! Movie '{movie_name}' added to the database!")
 
     except ValueError:
-        print("Invalid input. Please enter numbers for year and revenue.")
+        print("Invalid input! Please enter valid numbers for year and revenue.")
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"Error occurred while adding the movie: {e}")
 
 add_movie()
 
