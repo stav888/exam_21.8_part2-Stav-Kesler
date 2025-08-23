@@ -5,7 +5,7 @@ CREATE TABLE movies (
     country TEXT NOT NULL,
     language TEXT NOT NULL,
     year INTEGER NOT NULL CHECK (year >= 2009),
-    revenue REAL NOT NULL CHECK (revenue >= 0)
+    revenue REAL NOT NULL CHECK (revenue >= 0)e
 );
 
 DROP FUNCTION IF EXISTS total_revenue_for_year(INTEGER);
