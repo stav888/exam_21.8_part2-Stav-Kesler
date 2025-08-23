@@ -8,21 +8,20 @@ CREATE TABLE movies (
     revenue REAL NOT NULL CHECK (revenue >= 0)
 );
 
-DROP FUNCTION IF EXISTS total_revenue_by_year(INTEGER);
+DROP FUNCTION IF EXISTS total_revenue_for_year(INTEGER);
 
-CREATE OR REPLACE FUNCTION total_revenue_by_year(movie_year INTEGER)
+CREATE OR REPLACE FUNCTION total_revenue_for_year(target_year INTEGER)
 RETURNS REAL
 LANGUAGE plpgsql AS
 $$
-DECLARE
-    total_revenue REAL;
+DECLARE year_total REAL;
 BEGIN
-    SELECT SUM(revenue) INTO total_revenue
+    SELECT SUM(revenue) INTO year_total
     FROM movies
-    WHERE year = movie_year;
+    WHERE year = target_year;
 
-    RETURN total_revenue;
+    RETURN year_total;
 END;
 $$;
 
-SELECT total_revenue_by_year(2023) AS total_revenue;
+SELECT total_revenue_for_year(2023) AS total_revenue;
